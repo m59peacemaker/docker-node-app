@@ -1,0 +1,39 @@
+#!/bin/bash
+
+green="\033[0;32m"
+nc="\033[0m"
+
+link_runtime() {
+  local dest="/root/app/node_modules/babel-runtime"
+  if [ ! -e "$dest" ]; then
+    mkdir -p /root/app/node_modules && \
+    ln -s /root/share/node_modules/babel-runtime "$dest"
+  fi
+}
+
+compile() {
+  ln -s /root/share/node_modules /node_modules && \
+  babel /app                         \
+  --presets flow,es2015,stage-$STAGE \
+  --plugins transform-runtime        \
+  --ignore node_modules              \
+  --copy-files                       \
+  -d /root/app                       \
+  >/dev/null && \
+  unlink /node_modules
+}
+
+link_packages() {
+  local src="/app/node_modules"
+  local dest="/root/app/node_modules"
+  mkdir -p $src
+  if [ ! -e "$dest" ]; then
+    ln -s "$src" "$dest"
+  fi
+}
+
+echo -n "Building app... "  && \
+compile                     && \
+link_packages               && \
+link_runtime                && \
+echo -e "$green\u2713$nc"

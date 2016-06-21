@@ -1,0 +1,13 @@
+#!/bin/bash
+
+up="app-build && app"
+
+dev() {
+  nodemon --exec "app-lint-if && $up"
+}
+
+if [ "$NODE_ENV" = "production" ]; then
+  echo ""
+else
+  dev
+fi

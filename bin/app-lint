@@ -1,0 +1,8 @@
+#!/bin/bash
+
+green="\033[0;32m"
+nc="\033[0m"
+
+echo -n "Checking code style... " && \
+cd /app && standard --parser babel-eslint | snazzy && \
+echo -e "$green\u2713$nc"
