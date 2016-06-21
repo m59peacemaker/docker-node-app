@@ -21,8 +21,11 @@ docker run -it   \
 # mount your app to /app
 -v /path/to/your/app:/app
 
-# babel preset stage, default: 0
+# babel preset stage (0 1 2 3), default: 0
 -e STAGE=0
+
+# lint code (true false), default: true
+-e LINT=true
 ```
 
 ## use npm

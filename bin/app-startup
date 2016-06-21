@@ -3,7 +3,7 @@
 up="app-build && app"
 
 dev() {
-  nodemon --exec "app-lint-if && $up"
+  nodemon --exec "app-lint-conditional && $up"
 }
 
 if [ "$NODE_ENV" = "production" ]; then

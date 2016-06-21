@@ -30,6 +30,10 @@ ENV LANG=C.UTF-8
 
 # enable all babel experimental transformations
 ENV STAGE=0
+
+# linting is on by default
+ENV LINT=true
+
 ENV NODE_ENV=development
 
 # mount application here
