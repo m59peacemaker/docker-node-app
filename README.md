@@ -31,7 +31,7 @@ docker run -it   \
 
 ## use npm
 
-`docker exec` into app container and use `npm` as usual
+`docker exec` into app container or `docker run` with app mounted and use `npm` as usual
 
 ## module paths
 
