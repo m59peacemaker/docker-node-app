@@ -2,10 +2,10 @@
 
 Environment:
   - ubuntu 16
-  - node 5 in strict mode
+  - node 6 in strict mode
   - [JS Standard](http://standardjs.com/) linting
   - [flow](https://flowtype.org/) type checking
-  - latest JavaScript features with [Babel]()
+  - complete es6 and experimental features with [Babel]()
 
 ## example
 
@@ -13,7 +13,7 @@ Environment:
 docker run -it   \
   --name my-app  \
   -v ${PWD}:/app \
-  m59peacemaker/node:1.0.0
+  pmkr/node-app
 ```
 
 ## `docker run` options
