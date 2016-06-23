@@ -1,4 +1,4 @@
-# m59peacemaker/node
+# pmkr/node-app
 
 Environment:
   - ubuntu 16
@@ -17,6 +17,7 @@ docker run -it   \
 ```
 
 ## `docker run` options
+
 ```sh
 # mount your app to /app
 -v /path/to/your/app:/app
@@ -31,3 +32,12 @@ docker run -it   \
 ## use npm
 
 `docker exec` into app container and use `npm` as usual
+
+## module paths
+
+Modules in the project can be found in the same manner as modules in node_modules. Put modules in a directory like `app/` to avoid naming conflicts.
+
+project-root
+  - foo.js `require('foo')`
+  - app/
+    - foo.js `require('app/foo')`

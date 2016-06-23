@@ -12,15 +12,14 @@ link_runtime() {
 }
 
 compile() {
-  ln -s /root/share/node_modules /node_modules && \
+  # ln -s /root/share/node_modules /node_modules && \
+  NODE_PATH=/root/share/node_modules \
   babel /app                         \
-  --presets flow,es2015,stage-$STAGE \
-  --plugins transform-runtime        \
+  --presets node6,flow,stage-$STAGE  \
   --ignore node_modules              \
   --copy-files                       \
   -d /root/app                       \
-  >/dev/null && \
-  unlink /node_modules
+  >/dev/null
 }
 
 link_packages() {
@@ -32,8 +31,23 @@ link_packages() {
   fi
 }
 
+install_packages() {
+  cd /root/app;
+  rm -rf ./node_modules;
+  # also installs devDependencies for the sake of testing before launching app
+  npm install --production=false --loglevel error > /dev/null
+}
+
+setup_packages() {
+  if [ "$NODE_ENV" = "production" ]; then
+    install_packages
+  else
+    link_packages
+  fi
+}
+
 echo -n "Building app... "  && \
 compile                     && \
-link_packages               && \
+setup_packages              && \
 link_runtime                && \
 echo -e "$green\u2713$nc"

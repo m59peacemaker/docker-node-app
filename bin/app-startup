@@ -1,13 +1,18 @@
 #!/bin/bash
 
-up="app-build && app"
-
 dev() {
-  nodemon --exec "app-lint-conditional && $up"
+  nodemon --exec "app-lint-conditional && app-build && app"
+}
+
+prod() {
+  app-lint-conditional && \
+  app-build && \
+  app-test && \
+  forever -c app
 }
 
 if [ "$NODE_ENV" = "production" ]; then
-  echo ""
+  prod
 else
   dev
 fi
