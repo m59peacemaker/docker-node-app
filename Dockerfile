@@ -7,6 +7,7 @@ RUN \
     nodemon@1.9      \
     standard         \
     snazzy           \
+    psy@1.7          \
   >/dev/null
 
 # node_modules for any applications under /root
@@ -34,9 +35,6 @@ ENV STAGE=0
 ENV LINT=true
 
 ENV NODE_ENV=development
-
-# mount application here
-VOLUME /app
 
 WORKDIR /app
 

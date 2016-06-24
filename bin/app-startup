@@ -8,7 +8,7 @@ prod() {
   app-lint-conditional && \
   app-build && \
   app-test && \
-  forever -c app
+  psy -n app -- app
 }
 
 if [ "$NODE_ENV" = "production" ]; then

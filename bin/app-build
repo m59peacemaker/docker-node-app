@@ -33,21 +33,12 @@ link_packages() {
 
 install_packages() {
   cd /root/app;
-  rm -rf ./node_modules;
+  #rm -rf ./node_modules;
   # also installs devDependencies for the sake of testing before launching app
-  npm install --production=false --loglevel error > /dev/null
+  #npm install --production=false --loglevel error > /dev/null
 }
 
-setup_packages() {
-  if [ "$NODE_ENV" = "production" ]; then
-    install_packages
-  else
-    link_packages
-  fi
-}
-
-echo -n "Building app... "  && \
-compile                     && \
-setup_packages              && \
-link_runtime                && \
+echo -n "Building app... " && \
+compile                    && \
+link_packages              && \
 echo -e "$green\u2713$nc"
