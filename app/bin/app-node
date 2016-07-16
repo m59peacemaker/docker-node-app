@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+const program = require('commander')
+const kexec = require('../lib/kexec')
+const makeNodeCommand = require('../lib/make-node-command')
+
+program
+  .command('node')
+  .on('--help', () => {
+    program.help(() => kexec('node --help'))
+  })
+  .parse(process.argv)
+
+kexec(makeNodeCommand(process.argv.slice(2)))

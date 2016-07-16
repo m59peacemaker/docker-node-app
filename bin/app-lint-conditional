@@ -1,5 +1,0 @@
-#!/bin/bash
-
-if [ "$LINT" != false ]; then
-  app-lint
-fi

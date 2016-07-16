@@ -1,4 +1,4 @@
-v=1
+v=1.0
 tag=pmkr/node-app
 
 tagv=${tag}:${v}

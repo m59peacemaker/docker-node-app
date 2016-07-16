@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+const parsePath = require('path').parse
+const program = require('commander')
+var Socket = require('socket.io-client')
+const lint = require('../lib/lint')
+
+const args = program
+  .command('lint')
+  .option('-w, --watch')
+  .parse(process.argv)
+
+let p = undefined
+const start = () => {
+  let p = lint()
+    .on('close', () => p = undefined)
+}
+
+start()
+
+if (args.watch) {
+  const socket = Socket('http://localhost:' + process.env.CONTAINER_MESSAGE_PORT)
+  socket.on('src-changed', ({path}) => {
+    if (parsePath(path).ext !== '.js') { return }
+    if (p) { p.kill('SIGINT') }
+    start()
+  })
+}

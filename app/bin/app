@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+const program = require('commander')
+
+program
+  .command('dev', 'run app in dev mode')
+  .command('lint', 'lint app for JavaScript Standard Style compliance')
+  .command('node', 'node in strict mode with source map support')
+  .parse(process.argv)

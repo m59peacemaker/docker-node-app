@@ -1,0 +1,60 @@
+#!/usr/bin/env node
+
+const program = require('commander')
+var Socket = require('socket.io-client')
+const lint = require('../lib/lint')
+const spawn = require('../lib/spawn')
+const makeNodeCommand = require('../lib/make-node-command')
+const buildReady = require('../lib/build-ready')
+
+const args = program
+  .command('dev')
+  // .option('-s, --stage <n>', 'Babel expiremental stage. Default: 3', 3)
+  .option('-l, --lint', 'Lint code before execution')
+  .option('-t, --test', 'Run tests')
+  .option('-w, --watch')
+  .parse(process.argv)
+
+
+let p = undefined
+
+const runApp = () => {
+  return buildReady().then(() => {
+    p = spawn(makeNodeCommand('/var/lib/app'), {
+      env: {NODE_PATH: '/app/node_modules'},
+      stdio: 'inherit'
+    })
+  })
+}
+
+const finish = () => {
+  socket.close()
+}
+
+const maybeLint = () => {
+  return new Promise((resolve, reject) => {
+    if (args.lint) {
+      p = lint().on('close', exitCode => exitCode === 0 ? resolve() : reject())
+    } else {
+      resolve()
+    }
+  })
+}
+
+const run = () => {
+  return maybeLint()
+   .then(runApp)
+}
+
+run()
+
+if (args.watch) {
+  const socket = Socket('http://localhost:' + process.env.CONTAINER_MESSAGE_PORT)
+  socket.on('build-ready', () => {
+    if (p) {
+      p.kill('SIGINT')
+      p = undefined
+    }
+    run()
+  })
+}
